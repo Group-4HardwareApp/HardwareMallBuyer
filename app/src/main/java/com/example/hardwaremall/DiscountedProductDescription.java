@@ -370,6 +370,28 @@ public class DiscountedProductDescription extends AppCompatActivity {
             if (i == 1) {
                 sliderItem.setImageUrl(discount.getImageUrl());
             } else if (i == 2) {
+                if (discount.getSecondImageUrl() == null) {
+                    sliderItem.setImageUrl(discount.getImageUrl());
+                } else
+                    sliderItem.setImageUrl(discount.getSecondImageUrl());
+            } else if (i == 3) {
+                if (discount.getThirdImageurl() == null) {
+                    sliderItem.setImageUrl(discount.getImageUrl());
+                } else
+                    sliderItem.setImageUrl(discount.getThirdImageurl());
+            }
+            sliderItemList.add(sliderItem);
+        }
+        sliderAdapterExample.renewItems(sliderItemList);
+    }
+    /*
+    public void renewItems(View view) {
+        List<SliderItem> sliderItemList = new ArrayList<>();
+        for (int i = 1; i < 4; i++) {
+            SliderItem sliderItem = new SliderItem();
+            if (i == 1) {
+                sliderItem.setImageUrl(discount.getImageUrl());
+            } else if (i == 2) {
                 sliderItem.setImageUrl(discount.getSecondImageUrl());
             } else if (i == 3) {
                 sliderItem.setImageUrl(discount.getThirdImageurl());
@@ -377,5 +399,5 @@ public class DiscountedProductDescription extends AppCompatActivity {
             sliderItemList.add(sliderItem);
         }
         sliderAdapterExample.renewItems(sliderItemList);
-    }
+    }*/
 }

@@ -50,7 +50,7 @@ public class CartProductDescription extends AppCompatActivity {
     Cart cart;
     Product product;
     Favorite fav, favorite;
-    String id,userId,name,categoryId,shopkeeperId,productId,imageUrl,description,brand,productName;
+    String id, userId, name, categoryId, shopkeeperId, productId, imageUrl, description, brand, productName;
     Integer qtyInStock;
     double price, discount;
     ArrayList<Cart> cartList;
@@ -58,7 +58,7 @@ public class CartProductDescription extends AppCompatActivity {
     int flag = 0;
     int flag1 = 0;
 
-    private SliderAdapterExample sliderAdapterExample;
+    SliderAdapterExample sliderAdapterExample;
     InternetConnectivity connectivity = new InternetConnectivity();
 
     @Override
@@ -71,7 +71,7 @@ public class CartProductDescription extends AppCompatActivity {
         id = cart.getProductId();
         binding.btnAddToCart.setVisibility(View.GONE);
 
-        if(cart!=null) {
+        if (cart != null) {
             productData();
             getFavoriteList();
             addProductToFvorite();
@@ -85,8 +85,8 @@ public class CartProductDescription extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(CartProductDescription.this, BuyProductActivity.class);
-                in.putExtra("product",product);
-                Log.e("IntentproductName","=====>"+product.getName());
+                in.putExtra("product", product);
+                Log.e("IntentproductName", "=====>" + product.getName());
                 startActivity(in);
             }
         });
@@ -108,6 +108,8 @@ public class CartProductDescription extends AppCompatActivity {
                 public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
                     if (response.code() == 200) {
                         final ArrayList<Comment> commentList = response.body();
+                        Log.e("Array list ======"," ==="+commentList);
+                        Toast.makeText(CartProductDescription.this, ""+commentList, Toast.LENGTH_SHORT).show();
                         if (commentList.size() == 0) {
                             binding.tvRating.setVisibility(View.GONE);
                             binding.rl.setVisibility(View.GONE);
@@ -128,8 +130,11 @@ public class CartProductDescription extends AppCompatActivity {
                                 }
                             });
                         }
-                    } else
-                        Toast.makeText(CartProductDescription.this, "Error", Toast.LENGTH_SHORT).show();
+                    } else if(response.code()==404) {
+                        Toast.makeText(CartProductDescription.this, "404", Toast.LENGTH_SHORT).show();
+                    }else if(response.code()==500){
+                        Toast.makeText(CartProductDescription.this, "500", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 @Override
@@ -173,7 +178,7 @@ public class CartProductDescription extends AppCompatActivity {
         call1.enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
-                if(response.code() == 200){
+                if (response.code() == 200) {
                     product = response.body();
                     categoryId = product.getCategoryId();
                     brand = product.getBrand();
@@ -184,16 +189,16 @@ public class CartProductDescription extends AppCompatActivity {
                     qtyInStock = product.getQtyInStock();
                     imageUrl = product.getImageUrl();
 
-                    Log.e("product name", "====>"+ product.getName());
-                    binding.tvProductName.setText(""+product.getName());
+                    Log.e("product name", "====>" + product.getName());
+                    binding.tvProductName.setText("" + product.getName());
                     binding.ivImage.setVisibility(View.GONE);
 
-                    binding.tvProductDiscount.setText(""+product.getDiscount()+"% Off");
-                    binding.tvBrand.setText(""+product.getBrand());
-                    binding.tvQuantity.setText(""+product.getQtyInStock());
-                    binding.tvProductDescription.setText(""+product.getDescription());
+                    binding.tvProductDiscount.setText("" + product.getDiscount() + "% Off");
+                    binding.tvBrand.setText("" + product.getBrand());
+                    binding.tvQuantity.setText("" + product.getQtyInStock());
+                    binding.tvProductDescription.setText("" + product.getDescription());
 
-                    binding.tvProductPrice.setText(""+product.getPrice());
+                    binding.tvProductPrice.setText("" + product.getPrice());
                     double dis = price * (discount / 100);
                     double offerPrice = price - dis;
                     binding.tvDiscountedPrice.setText("₹ " + offerPrice);
@@ -205,16 +210,15 @@ public class CartProductDescription extends AppCompatActivity {
                 binding.iv.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
                 binding.iv.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
                 binding.iv.setIndicatorSelectedColor(Color.YELLOW);
-                binding.iv.setIndicatorMargin(1);
+                binding.iv.setIndicatorMargin(12);
                 binding.iv.setIndicatorUnselectedColor(Color.GRAY);
-                binding.iv.setScrollTimeInSec(2);
+                binding.iv.setScrollTimeInSec(3);
                 binding.iv.setOnIndicatorClickListener(new DrawController.ClickListener() {
                     @Override
                     public void onIndicatorClicked(int position) {
 
                     }
                 });
-
                 renewItems(binding.getRoot());
             }
 
@@ -379,20 +383,22 @@ public class CartProductDescription extends AppCompatActivity {
 
     public void renewItems(View view) {
         List<SliderItem> sliderItemList = new ArrayList<>();
-        if (product.getImageUrl()!=null){
-            SliderItem sliderItem1=new SliderItem();
-            sliderItem1.setImageUrl(product.getImageUrl());
-            sliderItemList.add(sliderItem1);
-            if (product.getSecondImageUrl()!=null){
-                SliderItem sliderItem2=new SliderItem();
-                sliderItem2.setImageUrl(product.getSecondImageUrl());
-                sliderItemList.add(sliderItem2);
-                if (product.getThirdImageurl()!=null){
-                    SliderItem sliderItem3=new SliderItem();
-                    sliderItem3.setImageUrl(product.getThirdImageurl());
-                    sliderItemList.add(sliderItem3);
-                }
+        for (int i = 1; i < 4; i++) {
+            SliderItem sliderItem = new SliderItem();
+            if (i == 1) {
+                sliderItem.setImageUrl(product.getImageUrl());
+            } else if (i == 2) {
+                if (product.getSecondImageUrl() == null) {
+                    sliderItem.setImageUrl(product.getImageUrl());
+                } else
+                    sliderItem.setImageUrl(product.getSecondImageUrl());
+            } else if (i == 3) {
+                if (product.getThirdImageurl() == null) {
+                    sliderItem.setImageUrl(product.getImageUrl());
+                } else
+                    sliderItem.setImageUrl(product.getThirdImageurl());
             }
+            sliderItemList.add(sliderItem);
         }
         sliderAdapterExample.renewItems(sliderItemList);
     }
