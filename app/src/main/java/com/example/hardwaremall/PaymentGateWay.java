@@ -41,6 +41,13 @@ public class PaymentGateWay extends Activity implements PaymentResultListener {
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         binding.txtPrivacyPolicy.setText(content);
 
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         binding.txtPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

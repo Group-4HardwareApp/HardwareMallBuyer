@@ -64,7 +64,7 @@ public class OrderService {
         @GET("/order/orderId")
         Call<Order> getOrderById(@Path("id") String id);
 
-        @GET("/reOrder/getQuantity")
+        @POST("order/reOrder/getQuantity")
         Call<ArrayList<Reorder>> getQuantityOfOrderItems(@Body Order order);
     }
 }

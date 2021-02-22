@@ -1,6 +1,8 @@
 package com.example.hardwaremall.bean;
 
-public class Reorder {
+import java.io.Serializable;
+
+public class Reorder implements Serializable {
     private OrderItems orderItems;
     private int qtyInStock;
     private double price;

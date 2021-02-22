@@ -137,6 +137,9 @@
         <activity android:name=".FavoriteProductDescription"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".PlaceReorderActivity"
+            android:screenOrientation="portrait"/>
+
         <service
             android:name="com.example.hardwaremall.MyFirebaseMessagingService"
             android:exported="false">

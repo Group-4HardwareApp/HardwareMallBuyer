@@ -84,6 +84,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 context.getApplicationContext().startActivity(in);
             }
         });*/
+        holder.binding.btnReorder.setVisibility(View.VISIBLE);
         holder.binding.btnReorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

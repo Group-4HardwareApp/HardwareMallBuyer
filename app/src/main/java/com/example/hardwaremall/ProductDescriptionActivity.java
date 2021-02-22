@@ -55,7 +55,6 @@ public class ProductDescriptionActivity extends AppCompatActivity {
     Double price;
     ArrayList<Cart> cartList;
     List<Favorite> favoriteList;
-
     int flag = 0, flag1 = 0;
     ShowCommentAdapter showCommentAdapter;
     private SliderAdapterExample sliderAdapterExample;
@@ -69,7 +68,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         Intent in = getIntent();
         product = (Product) in.getSerializableExtra("product");
 
-        if(product!=null) {
+        if (product != null) {
             productData();
             setProductDetails();
             getFavoriteList();
@@ -333,7 +332,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         double price = product.getPrice();
         double dis = price * (discount / 100);
         double offerPrice = price - dis;
-        binding.tvDiscountedPrice.setText(String.format("₹ "+"%.2f", offerPrice));
+        binding.tvDiscountedPrice.setText(String.format("₹ " + "%.2f", offerPrice));
         renewItems(binding.getRoot());
     }
 
@@ -373,8 +372,14 @@ public class ProductDescriptionActivity extends AppCompatActivity {
             if (i == 1) {
                 sliderItem.setImageUrl(product.getImageUrl());
             } else if (i == 2) {
-                sliderItem.setImageUrl(product.getSecondImageUrl());
+                if(product.getSecondImageUrl() == null)
+                    sliderItem.setImageUrl(product.getImageUrl());
+                else
+                    sliderItem.setImageUrl(product.getSecondImageUrl());
             } else if (i == 3) {
+                if (product.getThirdImageurl() == null) {
+                    sliderItem.setImageUrl(product.getImageUrl());
+                } else
                 sliderItem.setImageUrl(product.getThirdImageurl());
             }
             sliderItemList.add(sliderItem);
