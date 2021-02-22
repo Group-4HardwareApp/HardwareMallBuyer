@@ -14,5 +14,6 @@
     </string>
 
     <string name="your_string_here">View more <u>underline</u>.</string>
+    <string name="channel_name">sendnotification</string>
 
 </resources>

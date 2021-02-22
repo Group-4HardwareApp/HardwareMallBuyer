@@ -68,6 +68,7 @@ public class HomeActivity extends AppCompatActivity {
     String userId;
     private static final int REQUEST_CODE = 1234;
     ProgressDialog pd;
+    User user = null;
     InternetConnectivity connectivity = new InternetConnectivity();
 
     @Override
@@ -144,22 +145,8 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(in);
             }
         });
-
-  //      navHeader();
     }//eOf onCreate
 
-    /*private void navHeader() {
-        View headerLayout = homeBinding.navigationView.getHeaderView(0);
-        CircleImageView userImage = headerLayout.findViewById(R.id.civdp);
-
-        TextView tvUsername = headerLayout.findViewById(R.id.username);
-
-        TextView shopkeeperId = headerLayout.findViewById(R.id.shopkeeperId);
-        Picasso.get().load(sp.getString("imageUrl", "imageurl here")).into(userImage);
-        tvUsername.setText(sp.getString("name", "name here"));
-        shopkeeperId.setText(sp.getString("userId", "id here"));
-    }
-*/
     private void voiceSearch() {
         homeBinding.ivMic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,7 +163,6 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void addCart() {
@@ -208,6 +194,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onStart();
         checkUserProfile();
         addCart();
+        navHeader();
     }
 
     private void checkUserProfile() {
@@ -263,6 +250,34 @@ public class HomeActivity extends AppCompatActivity {
                     } else if (response.code() == 404) {
                         sendUserToProfileActivity();
                     }
+                }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+    private void navHeader() {
+        View headerLayout = homeBinding.navigationView.getHeaderView(0);
+        final CircleImageView userImage = headerLayout.findViewById(R.id.ivDp);
+        final TextView tvUsername = headerLayout.findViewById(R.id.userName);
+
+        Picasso.get().load(sp.getString("imageUrl", "imageurl here")).into(userImage);
+        tvUsername.setText(sp.getString("name", "name here"));
+
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if(currentUserId!=null){
+            UserService.UserApi shopkeeperApi = UserService.getUserApiInstance();
+            Call<User> call = shopkeeperApi.getUserDetails(currentUserId);
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (response.code() == 200) {
+                        user = response.body();
+                        Picasso.get().load(user.getImageUrl()).into(userImage);
+                        tvUsername.setText(user.getName());}
                 }
 
                 @Override

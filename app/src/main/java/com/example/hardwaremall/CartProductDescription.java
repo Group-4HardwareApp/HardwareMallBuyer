@@ -102,7 +102,7 @@ public class CartProductDescription extends AppCompatActivity {
     private void viewRating() {
         if (connectivity.isConnectedToInternet(this)) {
             CommentService.CommentApi commentApi = CommentService.getCommentApiInstance();
-            Call<ArrayList<Comment>> call = commentApi.getCommentOfProduct(productId);
+            Call<ArrayList<Comment>> call = commentApi.getCommentOfProduct(id);
             call.enqueue(new Callback<ArrayList<Comment>>() {
                 @Override
                 public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
@@ -203,23 +203,23 @@ public class CartProductDescription extends AppCompatActivity {
                     double offerPrice = price - dis;
                     binding.tvDiscountedPrice.setText("₹ " + offerPrice);
 
-                }
-                sliderAdapterExample = new SliderAdapterExample(CartProductDescription.this);
-                binding.iv.setSliderAdapter(sliderAdapterExample);
-                binding.iv.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-                binding.iv.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-                binding.iv.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
-                binding.iv.setIndicatorSelectedColor(Color.YELLOW);
-                binding.iv.setIndicatorMargin(12);
-                binding.iv.setIndicatorUnselectedColor(Color.GRAY);
-                binding.iv.setScrollTimeInSec(3);
-                binding.iv.setOnIndicatorClickListener(new DrawController.ClickListener() {
-                    @Override
-                    public void onIndicatorClicked(int position) {
+                    sliderAdapterExample = new SliderAdapterExample(CartProductDescription.this);
+                    binding.iv.setSliderAdapter(sliderAdapterExample);
+                    binding.iv.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                    binding.iv.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                    binding.iv.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+                    binding.iv.setIndicatorSelectedColor(Color.YELLOW);
+                    binding.iv.setIndicatorMargin(1);
+                    binding.iv.setIndicatorUnselectedColor(Color.GRAY);
+                    binding.iv.setScrollTimeInSec(2);
+                    binding.iv.setOnIndicatorClickListener(new DrawController.ClickListener() {
+                        @Override
+                        public void onIndicatorClicked(int position) {
 
-                    }
-                });
-                renewItems(binding.getRoot());
+                        }
+                    });
+                    renewItems(binding.getRoot());
+                }
             }
 
             @Override

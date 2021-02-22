@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,13 +44,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FavoriteProductDescription extends  AppCompatActivity{
+public class FavoriteProductDescription extends AppCompatActivity {
     ActivityProductDescriptionBinding binding;
     RecentUpdateAdapter adapter;
     Cart cart1;
     Product product;
     Favorite fav, favorite;
-    String id,userId,name,categoryId,shopkeeperId,productId,imageUrl,description,brand,productName;
+    String id, userId, name, categoryId, shopkeeperId, productId, imageUrl, description, brand, productName;
     Integer qtyInStock;
     double price, discount;
     ArrayList<Cart> cartList;
@@ -68,9 +69,9 @@ public class FavoriteProductDescription extends  AppCompatActivity{
         Intent in = getIntent();
         favorite = (Favorite) in.getSerializableExtra("favorite");
         id = favorite.getProductId();
-        Log.e("id==============",">>>>>>>>"+id);
+        Log.e("id==============", ">>>>>>>>" + id);
 
-        if(favorite!=null) {
+        if (favorite != null) {
             productData();
             getFavoriteList();
             addProductToFvorite();
@@ -84,8 +85,8 @@ public class FavoriteProductDescription extends  AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(FavoriteProductDescription.this, BuyProductActivity.class);
-                in.putExtra("product",product);
-                Log.e("IntentproductName","=====>"+product.getName());
+                in.putExtra("product", product);
+                Log.e("IntentproductName", "=====>" + product.getName());
                 startActivity(in);
             }
         });
@@ -99,11 +100,10 @@ public class FavoriteProductDescription extends  AppCompatActivity{
 
     }
 
-
     private void viewRating() {
         if (connectivity.isConnectedToInternet(this)) {
             CommentService.CommentApi commentApi = CommentService.getCommentApiInstance();
-            Call<ArrayList<Comment>> call = commentApi.getCommentOfProduct(productId);
+            Call<ArrayList<Comment>> call = commentApi.getCommentOfProduct(id);
             call.enqueue(new Callback<ArrayList<Comment>>() {
                 @Override
                 public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
@@ -174,7 +174,7 @@ public class FavoriteProductDescription extends  AppCompatActivity{
         call1.enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
-                if(response.code() == 200) {
+                if (response.code() == 200) {
                     product = response.body();
                     categoryId = product.getCategoryId();
                     brand = product.getBrand();
@@ -379,16 +379,16 @@ public class FavoriteProductDescription extends  AppCompatActivity{
 
     public void renewItems(View view) {
         List<SliderItem> sliderItemList = new ArrayList<>();
-        if (product.getImageUrl()!=null){
-            SliderItem sliderItem1=new SliderItem();
+        if (product.getImageUrl() != null) {
+            SliderItem sliderItem1 = new SliderItem();
             sliderItem1.setImageUrl(product.getImageUrl());
             sliderItemList.add(sliderItem1);
-            if (product.getSecondImageUrl()!=null){
-                SliderItem sliderItem2=new SliderItem();
+            if (product.getSecondImageUrl() != null) {
+                SliderItem sliderItem2 = new SliderItem();
                 sliderItem2.setImageUrl(product.getSecondImageUrl());
                 sliderItemList.add(sliderItem2);
-                if (product.getThirdImageurl()!=null){
-                    SliderItem sliderItem3=new SliderItem();
+                if (product.getThirdImageurl() != null) {
+                    SliderItem sliderItem3 = new SliderItem();
                     sliderItem3.setImageUrl(product.getThirdImageurl());
                     sliderItemList.add(sliderItem3);
                 }
